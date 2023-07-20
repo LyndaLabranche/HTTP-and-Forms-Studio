@@ -1,19 +1,55 @@
 <!doctype html>
 
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8" http-equiv="Permissions-Policy" content="interest-cohort=()">
 	<script>
-		// TODO: create a handler
-    window.addEventListener("load", function(){
-        // TODO: register the handler
-    });
+		//access the form on the DOM
+		let searchform = document.getElementById("searchForm");
+
+		//create an event listener to add on submit event; that will update the action attribute of the form to match the correct search engine. Action attr takes a URL and the value of the q param to pass to broswer
+		let setSearchEngine = function () {
+			let actionURL;
+			let radioBtn = 'input[name = engine]:checked'
+			let engine = document.querySelector(radioBtn).value
+
+			if (engine === "google") {
+				actionURL = "https://www.google.com/search"
+			} else if (engine === "bing") {
+				actionURL = "https://www.bing.com/search"
+			} else if (engine === "duckDuckGo") {
+				actionURL = "https://duckduckgo.com/"
+			} else {
+				actionURL = "https://www.ask.com/web/"
+			}
+
+			searchForm.setAttribute("action", actionURL)
+		}
+		//Wait for full form to load then add an event listener on submission event of the form
+		window.addEventListener("load", function (e) {
+			e.preventDefault()
+			searchForm.addEventListener("submit", setSearchEngine)
+		});
 	</script>
 </head>
 
 <body>
 
-	<form id="searchForm">
-    <!-- TODO: add form elements -->
+	<form id="searchForm" type="GET">
+		<!--search field, has q as param-->
+		<input type="search" id="searchInput" name="q"><br>
+
+		<!--radio buttons-->
+		<input type="radio" id="google" name="engine" value="google">
+		<label for="google">Google</label><br>
+		<input type="radio" id="duckDuckGo" name="engine" value="duckDuckGo">
+		<label for="duckDuckGo">DuckDuckGo</label><br>
+		<input type="radio" id="bing" name="engine" value="bing">
+		<label for="bing">Bing</label><br>
+		<input type="radio" id="ask" name="engine" value="ask">
+		<label for="ask">Ask</label><br>
+
+		<!--submit buttons-->
+		<input type="submit" value="Go!">
 	</form>
 
 </body>
